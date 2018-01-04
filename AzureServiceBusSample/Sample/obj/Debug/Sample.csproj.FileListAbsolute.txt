@@ -1,0 +1,11 @@
+X:\Development\KingStreetApps\Source\backend\samples\AzureServiceBusSample\Sample\bin\Debug\Sample.pdb
+X:\Development\KingStreetApps\Source\backend\samples\AzureServiceBusSample\Sample\bin\Debug\Microsoft.ServiceBus.dll
+X:\Development\KingStreetApps\Source\backend\samples\AzureServiceBusSample\Sample\bin\Debug\Microsoft.ServiceBus.xml
+X:\Development\KingStreetApps\Source\backend\samples\AzureServiceBusSample\Sample\obj\Debug\Sample.csprojResolveAssemblyReference.cache
+X:\Development\KingStreetApps\Source\backend\samples\AzureServiceBusSample\Sample\obj\Debug\Sample.csproj.CoreCompileInputs.cache
+X:\Development\KingStreetApps\Source\backend\samples\AzureServiceBusSample\Sample\obj\Debug\Sample.pdb
+X:\Development\KingStreetApps\Source\backend\samples\AzureServiceBusSample\Sample\bin\Debug\Sample.exe
+X:\Development\KingStreetApps\Source\backend\samples\AzureServiceBusSample\Sample\obj\Debug\Sample.exe
+X:\Development\KingStreetApps\Source\backend\samples\AzureServiceBusSample\Sample\bin\Debug\Sample.exe.config
+X:\Development\KingStreetApps\Source\backend\samples\AzureServiceBusSample\Sample\bin\Debug\NLog.dll
+X:\Development\KingStreetApps\Source\backend\samples\AzureServiceBusSample\Sample\bin\Debug\NLog.xml
