@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Threading.Tasks;
 using NLog;
+using Topshelf;
 
 namespace Sample
 {
@@ -9,26 +11,44 @@ namespace Sample
 		
 		public static void Main(string[] args)
 		{
-			try
+			HostFactory.Run(cfg =>
 			{
-				logger.Debug("Starting");
+				cfg.Service<SampleQueueProcessingService>(s =>
+				{
+					s.ConstructUsing(name =>
+					{
+						try
+						{
+							return new SampleQueueProcessingService();
+						}
+						catch (Exception ex)
+						{
+							logger.Fatal(() => $"{nameof(SampleQueueProcessingService)} failed to initilaise with error -->{ex.Message}");
+							throw;
+						}
+					});
 
-				var queueController = new AzureServiceBusQueueController();
-				var sampleHandler = new SampleMessageHandler();
+					s.WhenStarted(qps =>
+					{			
+						Task.Run(qps.StartAsync).GetAwaiter().GetResult();
+						logger.Debug(() => $"{nameof(SampleQueueProcessingService)} started");
+					});
 
-				queueController.SubscribeAsync(sampleHandler).GetAwaiter().GetResult();
-				logger.Debug("Message handler subscribed");
-
-				queueController.EnqueueAsync(new SampleMessage()).GetAwaiter().GetResult();
-				logger.Debug("Sample message queued - press any key to exit");
-
-				Console.ReadKey();
-				logger.Debug("Exit");
-			}
-			catch(Exception ex)
-			{
-				logger.Error(ex);
-			}
+					s.WhenStopped(qps =>
+					{
+						try
+						{
+							Task.Run(qps.StopAsync).GetAwaiter().GetResult();
+							logger.Debug(() => $"{nameof(SampleQueueProcessingService)} stopped");
+						}
+						catch (Exception ex)
+						{
+							logger.Error(() => $"{nameof(SampleQueueProcessingService)} failed to stop with error --> {ex.Message}");
+							throw;
+						}
+					});
+				});
+			});
 		}
 	}
 }

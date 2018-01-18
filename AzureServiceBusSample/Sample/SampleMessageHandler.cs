@@ -10,7 +10,7 @@ namespace Sample
 
 		public async Task HandleMessageAsync(SampleMessage message, Func<Task> heartbeatCallBack = null)
 		{
-			for (var i = 0; i < 1000; i++)
+			for (var i = 0; i < 6000; i++)
 			{
 				await Task.Delay(5000).ConfigureAwait(false);
 				logger.Debug($"Processed i = {i}");

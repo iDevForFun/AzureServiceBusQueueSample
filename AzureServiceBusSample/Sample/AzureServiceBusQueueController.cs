@@ -9,6 +9,7 @@ namespace Sample
 {
 	public class AzureServiceBusQueueController : IQueueController
 	{
+		private readonly ILogger logger = LogManager.GetCurrentClassLogger();
 		private readonly string connectionString = ConfigurationManager.ConnectionStrings["azureServiceBus"].ConnectionString;
 		
 		public async Task EnqueueAsync<TMessage>(TMessage message) where TMessage : class, IMessage
@@ -30,14 +31,18 @@ namespace Sample
 				{
 					try
 					{
+						logger.Debug($"Handling message of type {typeof(TMessage).Name} started");
 						var body = msg.GetBody<TMessage>();
 						
 						await handler.HandleMessageAsync(body, msg.RenewLockAsync).ConfigureAwait(false);
 						await msg.CompleteAsync().ConfigureAwait(false);
+
+						logger.Debug($"Handling message type {typeof(TMessage).Name} complete");
 					}
-					catch (Exception)
+					catch (Exception ex)
 					{
 						await msg.AbandonAsync().ConfigureAwait(false);
+						logger.Error(ex, $"Handling message of type {typeof(TMessage).Name} failed");
 					}
 				},
 				new OnMessageOptions
